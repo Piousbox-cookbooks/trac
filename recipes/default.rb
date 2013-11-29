@@ -27,8 +27,6 @@ package "trac" do
   action :upgrade
 end
 
-app = data_bag_item('apps', 'trac')
-
 directory node[:trac][:basedir] do
   owner "root"
   group "root"
@@ -78,7 +76,7 @@ template "trac-ini" do
     :trac_project_name => node[:trac][:project_name],
     :trac_mainnav => node[:trac][:mainnav],
     :trac_metanav => node[:trac][:metanav],
-    :trac_url => app['vhosts'].first,
+    :trac_url => node[:trac][:vhosts].first,
     :trac_svn_branches => node[:trac][:svn_branches],
     :trac_svn_tags => node[:trac][:svn_tags],
     :trac_svn_repo => node[:trac][:svn_dir]
@@ -95,7 +93,7 @@ template "trac-conf" do
     :trac_dir => node[:trac][:basedir],
     :trac_project_name => node[:trac][:project_name],
     :trac_required_groups => node[:trac][:required_groups],
-    :trac_vhosts => app['vhosts']
+    :trac_vhosts => node[:trac][:vhosts]
   )
 end
 
